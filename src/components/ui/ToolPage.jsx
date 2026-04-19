@@ -35,7 +35,6 @@ const ToolPage = ({ title, icon, module, renderForm, renderOutput }) => {
   };
 
   const outputData = result?.data;
-  const outputStr = outputData ? JSON.stringify(outputData, null, 2) : streamText;
 
   return (
     <Layout>

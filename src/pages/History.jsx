@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Layout from '../components/ui/Layout';
 import Spinner from '../components/ui/Spinner';
 import { historyAPI } from '../services/api';
@@ -81,7 +81,7 @@ const History = () => {
   const [pagination, setPagination] = useState({});
   const [moduleFilter, setModuleFilter] = useState('');
 
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     setLoading(true);
     try {
       const res = await historyAPI.getAll({ page, limit: 10, module: moduleFilter || undefined });
@@ -92,9 +92,9 @@ const History = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, moduleFilter]);
 
-  useEffect(() => { fetchHistory(); }, [page, moduleFilter]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchHistory(); }, [fetchHistory]);
 
   const handleDelete = async (id) => {
     try {

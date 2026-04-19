@@ -28,14 +28,14 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if (state.token) {
+    const token = localStorage.getItem('token');
+    if (token) {
       authAPI.me()
         .then((res) => dispatch({ type: 'SET_USER', payload: res.data.user }))
         .catch(() => dispatch({ type: 'LOGOUT' }));
     } else {
       dispatch({ type: 'DONE_LOADING' });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (email, password) => {
